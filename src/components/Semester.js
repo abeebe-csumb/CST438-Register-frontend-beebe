@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import {DataGrid} from '@material-ui/data-grid';
 import {SEMESTER_LIST} from '../constants.js'
+import 'react-toastify/dist/ReactToastify.css';
+
+import AddStudent from './AddStudent';
 
 // user selects from a list of  (year, semester) values
 class Semester extends Component {
@@ -29,7 +32,7 @@ class Semester extends Component {
         renderCell: (params) => (
           <div>
             <Radio
-              checked={params.row.id == this.state.selected}
+              checked={params.row.id === this.state.selected}
               onChange={this.onRadioClick}
               value={params.row.id}
               color="default"
@@ -62,6 +65,8 @@ class Semester extends Component {
                 variant="outlined" color="primary" style={{margin: 10}}>
                 Get Schedule
               </Button>
+              
+              <AddStudent addCourse={this.AddStudent}  />
           </div>
       </div>
     )
