@@ -1,4 +1,4 @@
-export const SERVER_URL = 'https://cst438-registrationbe-abeebe.herokuapp.com/';
+export const SERVER_URL = 'https://cst438-registrationbe-abeebe.herokuapp.com';
 
 export const SEMESTER_LIST = [
   {id:0, year:2020, name:'Fall'},

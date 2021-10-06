@@ -13,7 +13,7 @@ import {SERVER_URL} from '../constants.js'
 class AddStudent extends Component {
     constructor(props) {
         super(props);
-        this.state = {open: false, student: {}};
+        this.state = {open: false, email: "", name: "" };
       };
 
       handleClickOpen = () => {
@@ -25,12 +25,16 @@ class AddStudent extends Component {
       };
 
       handleChange = (event) => {
-        this.setState({ student: {email: event.target.value, name: 'test'}} ) ;
-        console.log(this.state.student);
+        const value = event.target.value;
+        this.setState({
+          ...this.state,
+          [event.target.name]: value
+        });
       }
 
       handleAdd = () => {
-        this.addStudent(this.state.student);
+        const student = {"email": this.state.email, "name": this.state.name};
+        this.addStudent(student);
         this.handleClose();
      }
 
@@ -43,14 +47,13 @@ class AddStudent extends Component {
             method: 'POST', 
             headers: { 'Content-Type': 'application/json',
                       'X-XSRF-TOKEN': token  }, 
-            body: JSON.stringify(student)
+            body: {}
           })
         .then(res => {
             if (res.ok) {
               toast.success("Student successfully added", {
                   position: toast.POSITION.BOTTOM_LEFT
               });
-              this.fetchCourses();
             } else {
               toast.error("Error when adding", {
                   position: toast.POSITION.BOTTOM_LEFT
@@ -74,8 +77,8 @@ class AddStudent extends Component {
               <Dialog open={this.state.open} onClose={this.handleClose}>
                   <DialogTitle>Add Student</DialogTitle>
                   <DialogContent>
-                    <TextField autoFocus fullWidth label="Email" name="email" onChange={this.handleChange}/>
-                    <TextField autoFocus fullWidth label="Name" name="student_name" />
+                    <TextField autoFocus fullWidth label="email" name="email" value={this.state.email} onChange={this.handleChange} />
+                    <TextField autoFocus fullWidth label="name" name="name" value={this.state.name} onChange={this.handleChange} />
                   </DialogContent>
                   <DialogActions>
                     <Button color="secondary" onClick={this.handleClose}>Cancel</Button>
