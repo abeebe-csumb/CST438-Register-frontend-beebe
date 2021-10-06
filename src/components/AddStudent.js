@@ -47,7 +47,7 @@ class AddStudent extends Component {
             method: 'POST', 
             headers: { 'Content-Type': 'application/json',
                       'X-XSRF-TOKEN': token  }, 
-            body: {}
+            body: JSON.stringify(student)
           })
         .then(res => {
             if (res.ok) {
