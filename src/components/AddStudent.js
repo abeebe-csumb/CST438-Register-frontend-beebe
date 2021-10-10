@@ -42,7 +42,7 @@ class AddStudent extends Component {
       addStudent = (student) => {
         const token = Cookies.get('XSRF-TOKEN');
     
-        fetch(`${SERVER_URL}/student/addStudent`,
+        fetch(`${SERVER_URL}/student`,
           { 
             method: 'POST', 
             headers: { 'Content-Type': 'application/json',
@@ -58,13 +58,13 @@ class AddStudent extends Component {
               toast.error("Error when adding", {
                   position: toast.POSITION.BOTTOM_LEFT
               });
-              console.error('Post http status =' + res.status);
+              // console.error('Post http status =' + res.status);
             }})
         .catch(err => {
           toast.error("Error when adding", {
                 position: toast.POSITION.BOTTOM_LEFT
             });
-            console.error(err);
+            // console.error(err);
         })
       } 
 
