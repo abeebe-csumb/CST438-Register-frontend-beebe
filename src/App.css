@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+main {
+  align-items: center;
+  border-radius: 4px;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 350px;
+  padding: 25px;
+  margin: auto;
+  margin-top: 200px;
+}
+
+form > .btn {
+  display: inline-block;
+}
+
+.hidden { display:none; }

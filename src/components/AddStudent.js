@@ -7,89 +7,90 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Cookies from 'js-cookie';
 import { ToastContainer, toast } from 'react-toastify';
-import {SERVER_URL} from '../constants.js'
+import { SERVER_URL } from '../constants.js'
 
 // properties email address & student name are required
 class AddStudent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {open: false, email: "", name: "" };
-      };
+  constructor(props) {
+    super(props);
+    this.state = { open: false, email: "", name: "" };
+  };
 
-      handleClickOpen = () => {
-        this.setState( {open:true} );
-      };
-  
-      handleClose = () => {
-        this.setState( {open:false} );
-      };
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
 
-      handleChange = (event) => {
-        const value = event.target.value;
-        this.setState({
-          ...this.state,
-          [event.target.name]: value
-        });
-      }
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
-      handleAdd = () => {
-        const student = {"email": this.state.email, "name": this.state.name};
-        this.addStudent(student);
-        this.handleClose();
-     }
+  handleChange = (event) => {
+    const value = event.target.value;
+    this.setState({
+      ...this.state,
+      [event.target.name]: value
+    });
+  }
 
-      // Add student
-      addStudent = (student) => {
-        const token = Cookies.get('XSRF-TOKEN');
-    
-        fetch(`${SERVER_URL}/student`,
-          { 
-            method: 'POST', 
-            headers: { 'Content-Type': 'application/json',
-                      'X-XSRF-TOKEN': token  }, 
-            body: JSON.stringify(student)
-          })
-        .then(res => {
-            if (res.ok) {
-              toast.success("Student successfully added", {
-                  position: toast.POSITION.BOTTOM_LEFT
-              });
-            } else {
-              toast.error("Error when adding", {
-                  position: toast.POSITION.BOTTOM_LEFT
-              });
-              // console.error('Post http status =' + res.status);
-            }})
-        .catch(err => {
+  handleAdd = () => {
+    const student = { "email": this.state.email, "name": this.state.name };
+    this.addStudent(student);
+    this.handleClose();
+  }
+
+  // Add student
+  addStudent = (student) => {
+    const token = Cookies.get('XSRF-TOKEN');
+
+    fetch(`${SERVER_URL}/student`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-XSRF-TOKEN': token
+        },
+        credentials: 'include',
+        body: JSON.stringify(student)
+      })
+      .then(res => {
+        if (res.ok) {
+          toast.success("Student successfully added", {
+            position: toast.POSITION.BOTTOM_LEFT
+          });
+        } else {
           toast.error("Error when adding", {
-                position: toast.POSITION.BOTTOM_LEFT
-            });
-            // console.error(err);
-        })
-      } 
+            position: toast.POSITION.BOTTOM_LEFT
+          });
+        }
+      })
+      .catch(err => {
+        toast.error("Error when adding", {
+          position: toast.POSITION.BOTTOM_LEFT
+        });
+      })
+  }
 
-      render() {
-          return (
-            <div>
-              <Button variant="outlined" color="secondary" style={{margin: 10}} onClick={this.handleClickOpen}>
-                Add Student
-              </Button>
-              <Dialog open={this.state.open} onClose={this.handleClose}>
-                  <DialogTitle>Add Student</DialogTitle>
-                  <DialogContent>
-                    <TextField autoFocus fullWidth label="email" name="email" value={this.state.email} onChange={this.handleChange} />
-                    <TextField autoFocus fullWidth label="name" name="name" value={this.state.name} onChange={this.handleChange} />
-                  </DialogContent>
-                  <DialogActions>
-                    <Button color="secondary" onClick={this.handleClose}>Cancel</Button>
-                    <Button color="primary" onClick={this.handleAdd}>Add</Button>
-                  </DialogActions>
-                </Dialog>
-                <ToastContainer autoClose={1500} />    
-            </div>
-          );
-      }
-
+  render() {
+    return (
+      <div className={this.props.className}>
+        <Button variant="outlined" color="secondary" style={{ margin: 10 }} onClick={this.handleClickOpen}>
+          Add Student
+        </Button>
+        <Dialog open={this.state.open} onClose={this.handleClose}>
+          <DialogTitle>Add Student</DialogTitle>
+          <DialogContent>
+            <TextField autoFocus fullWidth label="email" name="email" value={this.state.email} onChange={this.handleChange} />
+            <TextField autoFocus fullWidth label="name" name="name" value={this.state.name} onChange={this.handleChange} />
+          </DialogContent>
+          <DialogActions>
+            <Button color="secondary" onClick={this.handleClose}>Cancel</Button>
+            <Button color="primary" onClick={this.handleAdd}>Add</Button>
+          </DialogActions>
+        </Dialog>
+        <ToastContainer autoClose={1500} />
+      </div>
+    );
+  }
 }
 
 export default AddStudent;
